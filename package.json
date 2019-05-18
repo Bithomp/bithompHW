@@ -1,0 +1,30 @@
+{
+  "name": "bithomphw",
+  "version": "0.0.5",
+  "private": true,
+  "description": "JS library to interact with Ledger Hardware Wallet from a browser",
+  "main": "sourcecode-es6.js",
+  "scripts": {
+    "build": "babel --presets es2015,stage-0 sourcecode-es6.js -o compiled-for-node-es5.js",
+    "buildweb": "browserify compiled-for-node-es5.js --s bithomphw > bithomphw.js",
+    "minify": "uglifyjs bithomphw.js --compress sequences=true,dead_code=true,conditionals=true,booleans=true,unused=true,if_return=true,join_vars=true --mangle --output dist/bithomphw.min.js"
+  },
+  "author": "Octillion S.A.",
+  "license": "ISC",
+  "dependencies": {
+    "@ledgerhq/hw-app-xrp": "^4.48.0",
+    "@ledgerhq/hw-transport-u2f": "^4.48.0",
+    "babel-polyfill": "^6.26.0",
+    "ripple-binary-codec": "^0.1.14",
+    "ripple-hashes": "^0.3.1",
+    "ripple-keypairs": "^0.11.0",
+    "secalot-xrp-api": "^1.1.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "browserify": "^16.2.3",
+    "uglify-es": "^3.3.9"
+  }
+}
