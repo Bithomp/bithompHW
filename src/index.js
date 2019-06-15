@@ -1,4 +1,3 @@
-import 'babel-polyfill'
 import Transport from '@ledgerhq/hw-transport-u2f'
 import Xrp from "@ledgerhq/hw-app-xrp"
 import { encode, encodeForSigning } from 'ripple-binary-codec'
