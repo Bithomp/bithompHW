@@ -16,6 +16,10 @@
   <div id="output"></div>
   <script src="bithomphw.min.js?v=15062138"></script>
   <script>
+    //Ellipal
+    //var signed = "elp://signed/XRP/rUHKSkZ83tyP2VkxaZBqPcNQAUGQyGteyj/E7FA332390DA054499B150FCE42E334215071E6BEE972E3501875B2698D8454CF6740891125142D96F496DB99ED094DE89E7E738F7D6A377D8005B5E350CFE38";
+    //console.log(bithomphw.ellipalParseSignedTxQr(signed));
+
     var output = document.getElementById("output");
 
     if (location.protocol != 'https:') {
@@ -51,11 +55,11 @@
             var tx = {
               "TransactionType": "Payment",
               "Account": a.address,
-              "Destination": "rBithomp4vj5E2kUebx7tVwipBueg55XxS",
+              "Destination": "rBithompRnRxCkiYbyA22jmmMiEesq4oR1",
               "DestinationTag": "1",
               "Amount": "10000",
               "Flags": 2147483648,
-              "Fee": "12",
+              "Fee": "13",
               "Sequence": sequence,
               "SigningPubKey": a.publicKey
             };
@@ -100,11 +104,11 @@
           var tx = {
             "TransactionType": "Payment",
             "Account": a.address,
-            "Destination": "rBithomp4vj5E2kUebx7tVwipBueg55XxS",
-            "DestinationTag": "728",
+            "Destination": "rBithompRnRxCkiYbyA22jmmMiEesq4oR1",
+            "DestinationTag": "1",
             "Amount": "10000",
             "Flags": 2147483648,
-            "Fee": "12",
+            "Fee": "13",
             "Sequence": sequence,
             "SigningPubKey": a.publicKey
           };
