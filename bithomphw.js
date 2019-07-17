@@ -95324,7 +95324,7 @@ exports.ellipalPrepareUnsignedTxQr = function (tx) {
   if (qrLine.length > 230) {
     var qrLines = [];
     var linesCount = parseInt(unsignedTx.length / 140, 10) + 1;
-    unsignedTxArray = unsignedTx.match(/.{1,140}/g);
+    var unsignedTxArray = unsignedTx.match(/.{1,140}/g);
 
     for (var i = 1; i <= linesCount; i++) {
       qrLines[i - 1] = "elp://" + i + ":" + linesCount + "@tosign/XRP/" + tx.Account + "/" + unsignedTxArray[i - 1] + '/XRP/6';

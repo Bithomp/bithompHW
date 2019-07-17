@@ -1,6 +1,6 @@
 {
   "name": "bithomphw",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "private": true,
   "description": "JS library to interact with Ledger Hardware Wallet from a browser",
   "main": "/src/index.js",
