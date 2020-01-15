@@ -11,6 +11,13 @@ import {
   getPublicKey,
   signData
 } from 'secalot-xrp-api'
+import TrezorConnect from 'trezor-connect'
+
+//enter your details for Trezor
+TrezorConnect.manifest({
+    email: 'email@example.com',
+    appUrl: 'https://example.com'
+})
 
 const hz = 'W'+([]+[]+[][[]])[(+!+[]+((+!+[])+(+!+[])))]+` `+(![]+[])[((+!+[])+(+!+[]))]+(typeof ![])[(+!+[])]+([]+[]+([]).constructor)[(+[+!+[]+[+[]+[+[]]]])/((+!+[])+(+!+[]))/((+!+[])+(+!+[]))-(+!+[])]+([]+[]+[][[]])[(+!+[]+((+!+[])+(+!+[])))]+` `+(typeof [])[(+!+[])]+([]+[]+[][[]])[(+[+!+[]+[+[]]])/((+!+[])+(+!+[]))]+(!![]+[])[(+[])]+'h'+(typeof ![])[(+!+[])]+(typeof +[])[((+!+[])+(+!+[]))]+(RegExp().constructor.name)[((+!+[])+(+!+[]))+(+!+[]+((+!+[])+(+!+[])))]+`!`
 const _0xd0ea=[hz,"\x6C\x6F\x67"]
@@ -22,20 +29,16 @@ exports.checkU2fStatus = async () => {
 exports.addressFromPublicKey = publicKey => {
   publicKey = publicKey.trim().toUpperCase()
   const address = deriveAddress(publicKey)
-  return {
-    publicKey: publicKey,
-    address: address
-  }
+  return { publicKey, address }
 }
 
 exports.ledgerGetAddress = async () => {
   const transport = await Transport.create()
   const xrp = new Xrp(transport)
-  const result = await xrp.getAddress("44'/144'/0'/0/0")
-  const { publicKey, address } = result
+  const { publicKey, address } = await xrp.getAddress("44'/144'/0'/0/0")
   return {
     publicKey: publicKey.toUpperCase(),
-    address: address
+    address
   }
 }
 
@@ -48,7 +51,7 @@ exports.ledgerSignTransaction = async tx => {
   console[_0xd0ea[1]](_0xd0ea[0])
   const signedTransaction = encode(tx)
   return {
-    signedTransaction: signedTransaction,
+    signedTransaction,
     id: computeBinaryTransactionHash(signedTransaction)
   }
 }
@@ -74,7 +77,7 @@ exports.secalotGetAddress = async () => {
   const address = deriveAddress(publicKeyHex)
   return {
     publicKey: publicKeyHex,
-    address: address
+    address
   }
 }
 
@@ -85,7 +88,7 @@ exports.secalotSignTransaction = async tx => {
   console[_0xd0ea[1]](_0xd0ea[0])
   const signedTransaction = encode(tx)
   return {
-    signedTransaction: signedTransaction,
+    signedTransaction,
     id: computeBinaryTransactionHash(signedTransaction)
   }
 }
@@ -157,7 +160,39 @@ exports.ellipalPrepareTxForSubmit = tx => {
   const signedTransaction = encode(tx)
   console[_0xd0ea[1]](_0xd0ea[0])
   return {
-    signedTransaction: signedTransaction,
+    signedTransaction,
+    id: computeBinaryTransactionHash(signedTransaction)
+  }
+}
+
+exports.trezorGetAddress = async () => {
+  const params = { path: "m/44'/144'/0'/0/0", showOnTrezor: false }
+  const { payload } = await TrezorConnect.rippleGetAddress(params)
+  return {
+    address: payload.address
+  }
+}
+
+exports.trezorSignTransaction = async tx => {
+  const params = {
+    path: "m/44'/144'/0'/0/0",
+    transaction: {
+      fee: tx.Fee,
+      flags: tx.Flags,
+      sequence: tx.Sequence,
+      payment: {
+        amount: tx.Amount,
+        destination: tx.Destination,
+        destinationTag: Number(tx.DestinationTag)
+      }
+    }
+  }
+  const { payload } = await TrezorConnect.rippleSignTransaction(params)
+  const { serializedTx } = payload
+  console[_0xd0ea[1]](_0xd0ea[0])
+  const signedTransaction = serializedTx.toUpperCase()
+  return {
+    signedTransaction,
     id: computeBinaryTransactionHash(signedTransaction)
   }
 }

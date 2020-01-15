@@ -10,21 +10,22 @@
   "author": "Octillion S.A.",
   "license": "ISC",
   "dependencies": {
-    "@babel/runtime": "^7.4.5",
-    "@ledgerhq/hw-app-xrp": "^4.48.0",
-    "@ledgerhq/hw-transport-u2f": "^4.48.0",
-    "bitcore-lib": "^8.3.4",
+    "@babel/runtime": "^7.8.3",
+    "@ledgerhq/hw-app-xrp": "^4.78.0",
+    "@ledgerhq/hw-transport-u2f": "^4.78.0",
+    "bitcore-lib": "^8.14.4",
     "ripple-binary-codec": "^0.1.14",
-    "ripple-hashes": "^0.3.1",
+    "ripple-hashes": "^0.3.4",
     "ripple-keypairs": "^0.11.0",
-    "secalot-xrp-api": "^1.1.0"
+    "secalot-xrp-api": "^1.2.2",
+    "trezor-connect": "^8.0.13"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.5",
-    "@babel/plugin-transform-runtime": "^7.4.4",
-    "@babel/preset-env": "^7.4.5",
+    "@babel/core": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
     "babelify": "^10.0.0",
-    "browserify": "^16.2.3",
+    "browserify": "^16.5.0",
     "uglify-es": "^3.3.9"
   }
 }

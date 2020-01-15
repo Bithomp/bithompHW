@@ -1,7 +1,7 @@
 # bithompHW
 JS lib to work with Hard Wallets supporting XRP.
 
-Supported: Ledger Nano S, Ledger Nano X, Secalot, Ellipal
+Supported: Ledger Nano S, Ledger Nano X, Trezor, Ellipal, Secalot
 
 ##
 - npm install
@@ -10,3 +10,5 @@ Supported: Ledger Nano S, Ledger Nano X, Secalot, Ellipal
 Get you js-lib and html example in /dist/
 
 Make changes only in /src/index.js
+
+Before build enter your email and website for Trezor in the /src/index.js
