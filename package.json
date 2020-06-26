@@ -1,6 +1,6 @@
 {
   "name": "bithomphw",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "private": true,
   "description": "JS library to interact with Ledger Hardware Wallet from a browser",
   "main": "/src/index.js",
@@ -10,22 +10,22 @@
   "author": "Octillion S.A.",
   "license": "ISC",
   "dependencies": {
-    "@babel/runtime": "^7.8.3",
-    "@ledgerhq/hw-app-xrp": "^4.78.0",
-    "@ledgerhq/hw-transport-u2f": "^4.78.0",
-    "bitcore-lib": "^8.14.4",
+    "@babel/runtime": "^7.10.3",
+    "@ledgerhq/hw-app-xrp": "^5.17.0",
+    "@ledgerhq/hw-transport-u2f": "^5.17.0",
+    "bitcore-lib": "^8.20.4",
     "ripple-binary-codec": "^0.1.14",
     "ripple-hashes": "^0.3.4",
-    "ripple-keypairs": "^0.11.0",
+    "ripple-keypairs": "^0.11.1",
     "secalot-xrp-api": "^1.2.2",
-    "trezor-connect": "^8.0.13"
+    "trezor-connect": "^8.1.7"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.3",
-    "@babel/plugin-transform-runtime": "^7.8.3",
-    "@babel/preset-env": "^7.8.3",
+    "@babel/core": "^7.10.3",
+    "@babel/plugin-transform-runtime": "^7.10.3",
+    "@babel/preset-env": "^7.10.3",
     "babelify": "^10.0.0",
-    "browserify": "^16.5.0",
+    "browserify": "^16.5.1",
     "uglify-es": "^3.3.9"
   }
 }
