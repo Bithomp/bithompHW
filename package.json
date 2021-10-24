@@ -18,7 +18,7 @@
     "ripple-hashes": "^0.3.4",
     "ripple-keypairs": "^0.11.1",
     "secalot-xrp-api": "^1.2.2",
-    "trezor-connect": "^8.1.7"
+    "trezor-connect": "^8.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.10.3",
