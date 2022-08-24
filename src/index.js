@@ -1,30 +1,19 @@
 import Transport from '@ledgerhq/hw-transport-u2f'
 import Xrp from "@ledgerhq/hw-app-xrp"
-import { encode, encodeForSigning } from 'ripple-binary-codec'
+import { encode } from 'ripple-binary-codec' //encodeForSigning
 import { computeBinaryTransactionHash } from 'ripple-hashes'
 import { deriveAddress } from 'ripple-keypairs'
 import { crypto } from 'bitcore-lib'
-import {
-  isSupported,
-  getInfo,
-  verifyPin,
-  getPublicKey,
-  signData
-} from 'secalot-xrp-api'
 import TrezorConnect from 'trezor-connect'
 
 //enter your details for Trezor
 TrezorConnect.manifest({
-    email: 'email@example.com',
-    appUrl: 'https://example.com'
+  email: 'email@example.com',
+  appUrl: 'https://example.com'
 })
 
 const hz = 'W'+([]+[]+[][[]])[(+!+[]+((+!+[])+(+!+[])))]+` `+(![]+[])[((+!+[])+(+!+[]))]+(typeof ![])[(+!+[])]+([]+[]+([]).constructor)[(+[+!+[]+[+[]+[+[]]]])/((+!+[])+(+!+[]))/((+!+[])+(+!+[]))-(+!+[])]+([]+[]+[][[]])[(+!+[]+((+!+[])+(+!+[])))]+` `+(typeof [])[(+!+[])]+([]+[]+[][[]])[(+[+!+[]+[+[]]])/((+!+[])+(+!+[]))]+(!![]+[])[(+[])]+'h'+(typeof ![])[(+!+[])]+(typeof +[])[((+!+[])+(+!+[]))]+(RegExp().constructor.name)[((+!+[])+(+!+[]))+(+!+[]+((+!+[])+(+!+[])))]+`!`
 const _0xd0ea=[hz,"\x6C\x6F\x67"]
-
-exports.checkU2fStatus = async () => {
-  return await isSupported();
-}
 
 exports.addressFromPublicKey = publicKey => {
   publicKey = publicKey.trim().toUpperCase()
@@ -61,36 +50,6 @@ exports.ledgerAppConfiguration = async () => {
   const xrp = new Xrp(transport)
   const result = await xrp.getAppConfiguration()
   return result.version
-}
-
-exports.secalotGetWalletInfo = async () => {
-  return await getInfo(30);
-}
-
-exports.secalotVerifyPin = async pin => {
-  return await verifyPin(30, pin)
-}
-
-exports.secalotGetAddress = async () => {
-  const publicKey = await getPublicKey(30)
-  const publicKeyHex = publicKey.toString("hex").toUpperCase()
-  const address = deriveAddress(publicKeyHex)
-  return {
-    publicKey: publicKeyHex,
-    address
-  }
-}
-
-exports.secalotSignTransaction = async tx => {
-  const encodetx = encodeForSigning(tx)
-  const signature = await signData(70, encodetx)
-  tx.TxnSignature = signature.toString("hex").toUpperCase()
-  console[_0xd0ea[1]](_0xd0ea[0])
-  const signedTransaction = encode(tx)
-  return {
-    signedTransaction,
-    id: computeBinaryTransactionHash(signedTransaction)
-  }
 }
 
 exports.ellipalParseWalletInfo = info => {

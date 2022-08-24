@@ -1,13 +1,13 @@
 {
   "name": "bithomphw",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "private": true,
-  "description": "JS library to interact with Ledger Hardware Wallet from a browser",
+  "description": "JS library to interact with XRP supported Hardware Wallets from a browser",
   "main": "/src/index.js",
   "scripts": {
     "build": "browserify src/index.js --s bithomphw > bithomphw.js -t [ babelify --presets [ @babel/preset-env ] --plugins [ @babel/transform-runtime ] ]; uglifyjs bithomphw.js --compress --mangle --output dist/bithomphw.min.js"
   },
-  "author": "Octillion S.A.",
+  "author": "Bithomp AB",
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.10.3",
@@ -17,7 +17,6 @@
     "ripple-binary-codec": "^0.1.14",
     "ripple-hashes": "^0.3.4",
     "ripple-keypairs": "^0.11.1",
-    "secalot-xrp-api": "^1.2.2",
     "trezor-connect": "^8.2.1"
   },
   "devDependencies": {

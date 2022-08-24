@@ -1,17 +1,14 @@
 <html>
+
 <head>
   <title>Bithomp Hard Wallet</title>
 </head>
+
 <body>
   Sequence: <input id="sequence" />
   <br><br>
   <b>Ledger nano S</b><br>
   <button id="ledgerPay">Donate 0.01 XRP to Bithomp</button>
-  <br><br>
-  <b>Secalot</b><br>
-  Pin: <input id="secalotPin"/>
-  <br>
-  <button id="secalotPay">Donate 0.01 XRP to Bithomp</button>
   <br><br>
   <b>Trezor</b><br>
   <button id="trezorPay">Donate 0.01 XRP to Bithomp</button>
@@ -28,24 +25,25 @@
     if (location.protocol != 'https:') {
       output.innerHTML = 'You must be on https<br>';
     } else {
-      bithomphw.checkU2fStatus().then(function(a) {
+      bithomphw.checkU2fStatus().then(function (a) {
         if (a) {
           output.innerHTML = 'This browser is supported<br>';
         } else {
           output.innerHTML = 'this browser is NOT supported!<br>';
         }
-      }).catch(function(err) {
+      }).catch(function (err) {
         output.innerHTML += 'Couldn\'t check u2f support<br>';
         output.innerHTML += err.message + '<br>';
       });
 
-      document.getElementById("ledgerPay").onclick = function() {
+      document.getElementById("ledgerPay").onclick = function () {
         output.innerHTML = 'Trying to connect to your Ledger Hard Wallet...';
-        bithomphw.ledgerAppConfiguration().then(function(a) {
+        bithomphw.ledgerAppConfiguration().then(function (a) {
           output.innerHTML = 'Your ledgerHQ version: ' + a + '<br>';
 
-          bithomphw.ledgerGetAddress().then(function(a) {
-            output.innerHTML += 'Your address: <a href="https://bithomp.com/explorer/' + a.address +'" target="_blank" rel="noopener">' + a.address + '</a><br>';
+          bithomphw.ledgerGetAddress().then(function (a) {
+            output.innerHTML += 'Your address: <a href="https://bithomp.com/explorer/' + a.address +
+              '" target="_blank" rel="noopener">' + a.address + '</a><br>';
 
             var sequence = document.getElementById("sequence").value;
             if (!sequence) {
@@ -70,21 +68,23 @@
             output.innerHTML += 'Transaction sent for signing to your Hard Wallet!<br>';
             output.innerHTML += 'Check your Ledger Hard Wallet and press confirm :) <br>';
 
-            bithomphw.ledgerSignTransaction(tx).then(function(txJson) {
-              output.innerHTML += 'Transaction succesfully signed, copy the blob: <br>' + JSON.stringify(txJson, null, 2) + '<br><br>';
-              output.innerHTML += 'Submit here: <a href="https://bithomp.com/submit" target="_blank" rel="noopener">https://bithomp.com/submit</a><br>';
-            }).catch(function(err) {
+            bithomphw.ledgerSignTransaction(tx).then(function (txJson) {
+              output.innerHTML += 'Transaction succesfully signed, copy the blob: <br>' + JSON.stringify(
+                txJson, null, 2) + '<br><br>';
+              output.innerHTML +=
+                'Submit here: <a href="https://bithomp.com/submit" target="_blank" rel="noopener">https://bithomp.com/submit</a><br>';
+            }).catch(function (err) {
               output.innerHTML += 'Error signing<br>';
               console.log(err.message);
             });
 
-          }).catch(function(err) {
+          }).catch(function (err) {
             output.innerHTML += 'Couldn\'t get Address<br>';
             console.log(err.message);
             //Failed to sign with Ledger device: U2F TIMEOUT
           });
 
-        }).catch(function(err) {
+        }).catch(function (err) {
           output.innerHTML = 'Couldn\'t connect to your Ledger Hard Wallet :(';
           console.log(err.message);
           //Failed to sign with Ledger device: U2F TIMEOUT
@@ -92,10 +92,11 @@
         });
       };
 
-      document.getElementById("trezorPay").onclick = function() {
+      document.getElementById("trezorPay").onclick = function () {
         output.innerHTML = 'Trying to connect to your Trezor Hard Wallet...';
-        bithomphw.trezorGetAddress().then(function(a) {
-          output.innerHTML += 'Your address: <a href="https://bithomp.com/explorer/' + a.address +'" target="_blank" rel="noopener">' + a.address + '</a><br>';
+        bithomphw.trezorGetAddress().then(function (a) {
+          output.innerHTML += 'Your address: <a href="https://bithomp.com/explorer/' + a.address +
+            '" target="_blank" rel="noopener">' + a.address + '</a><br>';
 
           var sequence = document.getElementById("sequence").value;
           if (!sequence) {
@@ -118,101 +119,24 @@
           output.innerHTML += 'Transaction sent for signing to your Hard Wallet!<br>';
           output.innerHTML += 'Check your Trezor Wallet and press confirm :) <br>';
 
-          bithomphw.trezorSignTransaction(tx).then(function(txJson) {
-            output.innerHTML += 'Transaction succesfully signed, copy the blob: <br>' + JSON.stringify(txJson, null, 2) + '<br><br>';
-            output.innerHTML += 'Submit here: <a href="https://bithomp.com/submit" target="_blank" rel="noopener">https://bithomp.com/submit</a><br>';
-          }).catch(function(err) {
+          bithomphw.trezorSignTransaction(tx).then(function (txJson) {
+            output.innerHTML += 'Transaction succesfully signed, copy the blob: <br>' + JSON.stringify(txJson,
+              null, 2) + '<br><br>';
+            output.innerHTML +=
+              'Submit here: <a href="https://bithomp.com/submit" target="_blank" rel="noopener">https://bithomp.com/submit</a><br>';
+          }).catch(function (err) {
             output.innerHTML += 'Error signing<br>';
             console.log(err.message);
           });
 
-        }).catch(function(err) {
+        }).catch(function (err) {
           output.innerHTML += 'Couldn\'t get Address<br>';
           console.log(err.message);
           //Failed to sign with Ledger device: U2F TIMEOUT
         });
       };
-
-      function secalotSign() {
-        bithomphw.secalotGetAddress().then(function(a) {
-          output.innerHTML += 'Your address: <a href="https://bithomp.com/explorer/' + a.address +'" target="_blank" rel="noopener">' + a.address + '</a><br>';
-
-          var sequence = document.getElementById("sequence").value;
-          if (!sequence) {
-            output.innerHTML += "Please enter the transaction sequence and try again!";
-            document.getElementById("sequence").focus();
-            return;
-          }
-          sequence = Number(sequence);
-
-          var tx = {
-            "TransactionType": "Payment",
-            "Account": a.address,
-            "Destination": "rBithompRnRxCkiYbyA22jmmMiEesq4oR1",
-            "DestinationTag": "1",
-            "Amount": "10000",
-            "Flags": 2147483648,
-            "Fee": "13",
-            "Sequence": sequence,
-            "SigningPubKey": a.publicKey
-          };
-
-          output.innerHTML += 'If you use Secalot Mobile App check it for transaction details<br>';
-          output.innerHTML += 'To confirm transaction touch the button on your Secalot<br>';
-
-          bithomphw.secalotSignTransaction(tx).then(function(txJson) {
-            output.innerHTML += 'Transaction succesfully signed, copy the blob: <br>' + JSON.stringify(txJson, null, 2) + '<br><br>';
-            output.innerHTML += 'Submit here: <a href="https://bithomp.com/submit" target="_blank" rel="noopener">https://bithomp.com/submit</a><br>';
-          }).catch(function(err) {
-            output.innerHTML += 'Error signing<br>';
-            output.innerHTML += err.message + '<br>';
-          });
-
-        }).catch(function(err) {
-          output.innerHTML += 'Couldnt get secalot xrp address<br>';
-          output.innerHTML += err.message + '<br>';
-        });
-      }
-
-      document.getElementById("secalotPay").onclick = function() {
-        output.innerHTML = "trying to connect to your Secalot, pleasee wait...<br>";
-
-        bithomphw.secalotGetWalletInfo().then(function(info) {
-          output.innerHTML = 'Your Secalot version: ' + info.version + '<br>';
-
-          if (info.walletInitialized === true) {
-            output.innerHTML += "Wallet status: initialized<br>";
-          } else {
-            output.innerHTML += "Wallet status: not initialized";
-            return;
-          }
-
-          if (info.pinVerified === true) {
-            output.innerHTML += "Pin status: verified<br/>";
-          } else {
-            var pin = document.getElementById("secalotPin").value;
-            if (!pin) {
-              output.innerHTML += "Please enter your secalot Pin!";
-              document.getElementById("secalotPin").focus();
-              return;
-            }
-            bithomphw.secalotVerifyPin(pin).then(function() {
-              output.innerHTML += 'Pin verified<br>';
-              secalotSign();
-            }).catch(function(err) {
-              output.innerHTML += 'Pin is NOT verified: ';
-              output.innerHTML += err.message + '<br>';
-            });
-            return;
-          }
-
-          secalotSign();
-        }).catch(function(err) {
-          output.innerHTML = 'Couldn\'t connect to your Secalot, make sure it is incerted to your computer :)<br>';
-          console.log(err.message);
-        });
-      };
     }
   </script>
 </body>
+
 </html>
