@@ -1,5 +1,5 @@
 # bithompHW
-JS lib to work with Hard Wallets supporting XRP.
+JS lib to work with Hardware Wallets supporting XRP.
 
 Supported: Ledger Nano S, Ledger Nano X, Trezor, Ellipal
 
