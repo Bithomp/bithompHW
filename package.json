@@ -1,6 +1,6 @@
 {
   "name": "bithomphw",
-  "version": "0.0.11",
+  "version": "1.0.0",
   "private": true,
   "description": "JS library to interact with XRP supported Hardware Wallets from a browser",
   "scripts": {
