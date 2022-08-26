@@ -1,4 +1,4 @@
-import Transport from '@ledgerhq/hw-transport-u2f'
+import TransportWebHID from '@ledgerhq/hw-transport-webhid'
 import Xrp from "@ledgerhq/hw-app-xrp"
 import { encode } from 'ripple-binary-codec' //encodeForSigning
 import { computeBinaryTransactionHash } from 'ripple-hashes'
@@ -12,18 +12,23 @@ TrezorConnect.manifest({
   appUrl: 'https://example.com'
 })
 
-const hz = 'W'+([]+[]+[][[]])[(+!+[]+((+!+[])+(+!+[])))]+` `+(![]+[])[((+!+[])+(+!+[]))]+(typeof ![])[(+!+[])]+([]+[]+([]).constructor)[(+[+!+[]+[+[]+[+[]]]])/((+!+[])+(+!+[]))/((+!+[])+(+!+[]))-(+!+[])]+([]+[]+[][[]])[(+!+[]+((+!+[])+(+!+[])))]+` `+(typeof [])[(+!+[])]+([]+[]+[][[]])[(+[+!+[]+[+[]]])/((+!+[])+(+!+[]))]+(!![]+[])[(+[])]+'h'+(typeof ![])[(+!+[])]+(typeof +[])[((+!+[])+(+!+[]))]+(RegExp().constructor.name)[((+!+[])+(+!+[]))+(+!+[]+((+!+[])+(+!+[])))]+`!`
-const _0xd0ea=[hz,"\x6C\x6F\x67"]
-
 exports.addressFromPublicKey = publicKey => {
   publicKey = publicKey.trim().toUpperCase()
   const address = deriveAddress(publicKey)
   return { publicKey, address }
 }
 
-exports.ledgerGetAddress = async () => {
-  const transport = await Transport.create()
-  const xrp = new Xrp(transport)
+exports.ledgerEstablishConnection = () => {
+  return TransportWebHID.create()
+    .then(transport => new Xrp(transport))
+}
+
+exports.ledgerAppConfiguration = async (xrp) => {
+  const result = await xrp.getAppConfiguration()
+  return result.version
+}
+
+exports.ledgerGetAddress = async (xrp) => {
   const { publicKey, address } = await xrp.getAddress("44'/144'/0'/0/0")
   return {
     publicKey: publicKey.toUpperCase(),
@@ -31,25 +36,15 @@ exports.ledgerGetAddress = async () => {
   }
 }
 
-exports.ledgerSignTransaction = async tx => {
+exports.ledgerSignTransaction = async (xrp, tx) => {
   const encodetx = encode(tx)
-  const transport = await Transport.create()
-  const xrp = new Xrp(transport)
   const signature = await xrp.signTransaction("44'/144'/0'/0/0", encodetx)
   tx.TxnSignature = signature.toUpperCase()
-  console[_0xd0ea[1]](_0xd0ea[0])
   const signedTransaction = encode(tx)
   return {
     signedTransaction,
     id: computeBinaryTransactionHash(signedTransaction)
   }
-}
-
-exports.ledgerAppConfiguration = async () => {
-  const transport = await Transport.create()
-  const xrp = new Xrp(transport)
-  const result = await xrp.getAppConfiguration()
-  return result.version
 }
 
 exports.ellipalParseWalletInfo = info => {
@@ -117,7 +112,6 @@ exports.ellipalParseSignedTxQr = data => {
 
 exports.ellipalPrepareTxForSubmit = tx => {
   const signedTransaction = encode(tx)
-  console[_0xd0ea[1]](_0xd0ea[0])
   return {
     signedTransaction,
     id: computeBinaryTransactionHash(signedTransaction)
@@ -148,7 +142,6 @@ exports.trezorSignTransaction = async tx => {
   }
   const { payload } = await TrezorConnect.rippleSignTransaction(params)
   const { serializedTx } = payload
-  console[_0xd0ea[1]](_0xd0ea[0])
   const signedTransaction = serializedTx.toUpperCase()
   return {
     signedTransaction,

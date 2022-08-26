@@ -1,0 +1,133 @@
+<html>
+
+<head>
+  <title>Bithomp Hardware Wallet</title>
+</head>
+
+<body>
+  Sequence: <input id="sequence" />
+  <br><br>
+  <b>Ledger nano S</b><br>
+  <button id="ledgerPay">Donate 0.01 XRP to Bithomp</button>
+  <br><br>
+  <b>Trezor</b><br>
+  <button id="trezorPay">Donate 0.01 XRP to Bithomp</button>
+  <br><br>
+  <div id="output"></div>
+  <script type="module">
+    import bithomphw from "./bithomphw.js";
+    let ledgerOpen = false;
+    //Ellipal
+    //var signed = "elp://signed/XRP/rUHKSkZ83tyP2VkxaZBqPcNQAUGQyGteyj/E7FA332390DA054499B150FCE42E334215071E6BEE972E3501875B2698D8454CF6740891125142D96F496DB99ED094DE89E7E738F7D6A377D8005B5E350CFE38";
+    //console.log(bithomphw.ellipalParseSignedTxQr(signed));
+
+    var output = document.getElementById("output");
+
+    function ledgerPay(xrp) {
+      bithomphw.ledgerAppConfiguration(xrp).then(function (a) {
+        output.innerHTML = 'Your ledgerHQ version: ' + a + '<br>';
+
+        bithomphw.ledgerGetAddress(xrp).then(function (a) {
+          output.innerHTML += 'Your address: <a href="https://bithomp.com/explorer/' + a.address +
+            '" target="_blank" rel="noopener">' + a.address + '</a><br>';
+
+          var sequence = document.getElementById("sequence").value;
+          if (!sequence) {
+            output.innerHTML += "Please enter the transaction sequence and try again!";
+            document.getElementById("sequence").focus();
+            return;
+          }
+          sequence = Number(sequence);
+
+          var tx = {
+            "TransactionType": "Payment",
+            "Account": a.address,
+            "Destination": "rBithompRnRxCkiYbyA22jmmMiEesq4oR1",
+            "DestinationTag": "1",
+            "Amount": "10000",
+            "Flags": 2147483648,
+            "Fee": "13",
+            "Sequence": sequence,
+            "SigningPubKey": a.publicKey
+          };
+
+          output.innerHTML += 'Transaction sent for signing to your Hard Wallet!<br>';
+          output.innerHTML += 'Check your Ledger Hard Wallet and press confirm :) <br>';
+
+          bithomphw.ledgerSignTransaction(xrp, tx).then(function (txJson) {
+            output.innerHTML += 'Transaction succesfully signed, copy the blob: <br>' + JSON.stringify(
+              txJson, null, 2) + '<br><br>';
+            output.innerHTML +=
+              'Submit here: <a href="https://bithomp.com/submit" target="_blank" rel="noopener">https://bithomp.com/submit</a><br>';
+          }).catch(function (err) {
+            output.innerHTML += 'Error signing<br>';
+            console.log(err.message);
+          });
+
+        }).catch(function (err) {
+          output.innerHTML += 'Couldn\'t get Address<br>';
+          console.log(err.message);
+        });
+
+      }).catch(function (err) {
+        output.innerHTML = 'Couldn\'t connect to your Ledger Hard Wallet :(';
+        console.log(err.message);
+      });
+    }
+
+    document.getElementById("ledgerPay").onclick = function () {
+      output.innerHTML = 'Trying to connect to your Ledger Hard Wallet...';
+      if (!ledgerOpen) {
+        bithomphw.ledgerEstablishConnection()
+          .then(xrp => {ledgerOpen = xrp; ledgerPay(xrp)})
+      } else {
+        ledgerPay(ledgerOpen)
+      }
+    };
+
+    document.getElementById("trezorPay").onclick = function () {
+      output.innerHTML = 'Trying to connect to your Trezor Hard Wallet...';
+      bithomphw.trezorGetAddress().then(function (a) {
+        output.innerHTML += 'Your address: <a href="https://bithomp.com/explorer/' + a.address +
+          '" target="_blank" rel="noopener">' + a.address + '</a><br>';
+
+        var sequence = document.getElementById("sequence").value;
+        if (!sequence) {
+          output.innerHTML += "Please enter the transaction sequence and try again!";
+          document.getElementById("sequence").focus();
+          return;
+        }
+        sequence = Number(sequence);
+
+        var tx = {
+          "TransactionType": "Payment",
+          "Destination": "rBithompRnRxCkiYbyA22jmmMiEesq4oR1",
+          "DestinationTag": "1",
+          "Amount": "10000",
+          "Flags": 2147483648,
+          "Fee": "13",
+          "Sequence": sequence,
+        };
+
+        output.innerHTML += 'Transaction sent for signing to your Hard Wallet!<br>';
+        output.innerHTML += 'Check your Trezor Wallet and press confirm :) <br>';
+
+        bithomphw.trezorSignTransaction(tx).then(function (txJson) {
+          output.innerHTML += 'Transaction succesfully signed, copy the blob: <br>' + JSON.stringify(txJson,
+            null, 2) + '<br><br>';
+          output.innerHTML +=
+            'Submit here: <a href="https://bithomp.com/submit" target="_blank" rel="noopener">https://bithomp.com/submit</a><br>';
+        }).catch(function (err) {
+          output.innerHTML += 'Error signing<br>';
+          console.log(err.message);
+        });
+
+      }).catch(function (err) {
+        output.innerHTML += 'Couldn\'t get Address<br>';
+        console.log(err.message);
+      });
+    };
+  </script>
+</body>
+
+</html>
