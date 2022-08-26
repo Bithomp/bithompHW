@@ -1,30 +1,40 @@
 {
   "name": "bithomphw",
-  "version": "0.0.11",
+  "version": "1.0.0",
   "private": true,
   "description": "JS library to interact with XRP supported Hardware Wallets from a browser",
-  "main": "/src/index.js",
   "scripts": {
-    "build": "browserify src/index.js --s bithomphw > bithomphw.js -t [ babelify --presets [ @babel/preset-env ] --plugins [ @babel/transform-runtime ] ]; uglifyjs bithomphw.js --compress --mangle --output dist/bithomphw.min.js"
+    "build": "parcel build src/bithomphw.js --public-url ./",
+    "start": "parcel"
   },
   "author": "Bithomp AB",
-  "license": "ISC",
+  "license": "GPL-3.0",
+  "keywords": [
+    "xrpl",
+    "xrp"
+  ],
   "dependencies": {
-    "@babel/runtime": "^7.10.3",
     "@ledgerhq/hw-app-xrp": "^5.17.0",
-    "@ledgerhq/hw-transport-u2f": "^5.17.0",
+    "@ledgerhq/hw-transport-webhid": "^6.27.2",
     "bitcore-lib": "^8.20.4",
+    "core-js": "^3.25.0",
     "ripple-binary-codec": "^0.1.14",
     "ripple-hashes": "^0.3.4",
     "ripple-keypairs": "^0.11.1",
     "trezor-connect": "^8.2.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.3",
-    "@babel/plugin-transform-runtime": "^7.10.3",
-    "@babel/preset-env": "^7.10.3",
-    "babelify": "^10.0.0",
-    "browserify": "^16.5.1",
-    "uglify-es": "^3.3.9"
+    "assert": "^2.0.0",
+    "buffer": "^6.0.3",
+    "crypto-browserify": "^3.12.0",
+    "parcel": "^2.7.0",
+    "process": "^0.11.10",
+    "querystring-es3": "^0.2.1",
+    "stream-browserify": "^3.0.0",
+    "url": "^0.11.0",
+    "util": "^0.12.4"
+  },
+  "alias": {
+    "@ledgerhq/devices": "@ledgerhq/devices/lib-es"
   }
 }
