@@ -5,6 +5,7 @@ Supported: Ledger Nano S, Ledger Nano X, Trezor, Ellipal
 
 ##
 - npm install
+- npm run start
 - npm run build
 
 Get you js-lib and html example in /dist/
