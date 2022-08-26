@@ -4,7 +4,7 @@
   "private": true,
   "description": "JS library to interact with XRP supported Hardware Wallets from a browser",
   "scripts": {
-    "build": "parcel build src/index.html --public-url ./",
+    "build": "parcel build src/bithomphw.js --public-url ./",
     "start": "parcel"
   },
   "author": "Bithomp AB",

@@ -14,8 +14,8 @@
   <button id="trezorPay">Donate 0.01 XRP to Bithomp</button>
   <br><br>
   <div id="output"></div>
-  <script type="module">
-    import bithomphw from "./bithomphw.js";
+  <script src="./bithomphw.js"></script>
+  <script>
     let ledgerOpen = false;
     //Ellipal
     //var signed = "elp://signed/XRP/rUHKSkZ83tyP2VkxaZBqPcNQAUGQyGteyj/E7FA332390DA054499B150FCE42E334215071E6BEE972E3501875B2698D8454CF6740891125142D96F496DB99ED094DE89E7E738F7D6A377D8005B5E350CFE38";
@@ -79,7 +79,10 @@
       output.innerHTML = 'Trying to connect to your Ledger Hard Wallet...';
       if (!ledgerOpen) {
         bithomphw.ledgerEstablishConnection()
-          .then(xrp => {ledgerOpen = xrp; ledgerPay(xrp)})
+          .then(xrp => {
+            ledgerOpen = xrp;
+            ledgerPay(xrp)
+          })
       } else {
         ledgerPay(ledgerOpen)
       }

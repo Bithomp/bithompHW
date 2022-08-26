@@ -12,23 +12,25 @@ TrezorConnect.manifest({
   appUrl: 'https://example.com'
 })
 
-exports.addressFromPublicKey = publicKey => {
+global.bithomphw = {}
+
+bithomphw.addressFromPublicKey = publicKey => {
   publicKey = publicKey.trim().toUpperCase()
   const address = deriveAddress(publicKey)
   return { publicKey, address }
 }
 
-exports.ledgerEstablishConnection = () => {
+bithomphw.ledgerEstablishConnection = () => {
   return TransportWebHID.create()
     .then(transport => new Xrp(transport))
 }
 
-exports.ledgerAppConfiguration = async (xrp) => {
+bithomphw.ledgerAppConfiguration = async (xrp) => {
   const result = await xrp.getAppConfiguration()
   return result.version
 }
 
-exports.ledgerGetAddress = async (xrp) => {
+bithomphw.ledgerGetAddress = async (xrp) => {
   const { publicKey, address } = await xrp.getAddress("44'/144'/0'/0/0")
   return {
     publicKey: publicKey.toUpperCase(),
@@ -36,7 +38,7 @@ exports.ledgerGetAddress = async (xrp) => {
   }
 }
 
-exports.ledgerSignTransaction = async (xrp, tx) => {
+bithomphw.ledgerSignTransaction = async (xrp, tx) => {
   const encodetx = encode(tx)
   const signature = await xrp.signTransaction("44'/144'/0'/0/0", encodetx)
   tx.TxnSignature = signature.toUpperCase()
@@ -47,7 +49,7 @@ exports.ledgerSignTransaction = async (xrp, tx) => {
   }
 }
 
-exports.ellipalParseWalletInfo = info => {
+bithomphw.ellipalParseWalletInfo = info => {
   if (info.indexOf('1:1@sync2') == -1 && info.indexOf('elp://sync') == -1) {
     return {error: "WRONGQR"}
   }
@@ -72,7 +74,7 @@ exports.ellipalParseWalletInfo = info => {
   }
 }
 
-exports.ellipalPrepareUnsignedTxQr = tx => {
+bithomphw.ellipalPrepareUnsignedTxQr = tx => {
   const unsignedTx = Buffer.from(encode(tx), "hex").toString("base64").replace(/\//g, "_")
   const qrLine = "elp://tosign/XRP/" + tx.Account + "/" + unsignedTx + '/XRP/6'
   if (qrLine.length > 230) {
@@ -92,7 +94,7 @@ exports.ellipalPrepareUnsignedTxQr = tx => {
   }
 }
 
-exports.ellipalParseSignedTxQr = data => {
+bithomphw.ellipalParseSignedTxQr = data => {
   if (data.indexOf('elp://signed') == -1) {
     return {error: "WRONGQR"}
   }
@@ -110,7 +112,7 @@ exports.ellipalParseSignedTxQr = data => {
   }
 }
 
-exports.ellipalPrepareTxForSubmit = tx => {
+bithomphw.ellipalPrepareTxForSubmit = tx => {
   const signedTransaction = encode(tx)
   return {
     signedTransaction,
@@ -118,7 +120,7 @@ exports.ellipalPrepareTxForSubmit = tx => {
   }
 }
 
-exports.trezorGetAddress = async () => {
+bithomphw.trezorGetAddress = async () => {
   const params = { path: "m/44'/144'/0'/0/0", showOnTrezor: false }
   const { payload } = await TrezorConnect.rippleGetAddress(params)
   return {
@@ -126,7 +128,7 @@ exports.trezorGetAddress = async () => {
   }
 }
 
-exports.trezorSignTransaction = async tx => {
+bithomphw.trezorSignTransaction = async tx => {
   const params = {
     path: "m/44'/144'/0'/0/0",
     transaction: {
