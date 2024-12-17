@@ -22,13 +22,14 @@
     //console.log(bithomphw.ellipalParseSignedTxQr(signed));
 
     var output = document.getElementById("output");
+    var ledgerPath = "44'/144'/0'/0/0"; // 44'/144'/1'/0/0
 
     function ledgerPay(xrp) {
       bithomphw.ledgerAppConfiguration(xrp).then(function (a) {
         output.innerHTML = 'Your ledgerHQ version: ' + a + '<br>';
 
-        bithomphw.ledgerGetAddress(xrp).then(function (a) {
-          output.innerHTML += 'Your address: <a href="https://bithomp.com/explorer/' + a.address +
+        bithomphw.ledgerGetAddress(xrp, ledgerPath).then(function (a) {
+          output.innerHTML += 'Your address: <a href="https://xrplexplorer.com/explorer/' + a.address +
             '" target="_blank" rel="noopener">' + a.address + '</a><br>';
 
           var sequence = document.getElementById("sequence").value;
@@ -54,7 +55,7 @@
           output.innerHTML += 'Transaction sent for signing to your Hard Wallet!<br>';
           output.innerHTML += 'Check your Ledger Hard Wallet and press confirm :) <br>';
 
-          bithomphw.ledgerSignTransaction(xrp, tx).then(function (txJson) {
+          bithomphw.ledgerSignTransaction(xrp, tx, ledgerPath).then(function (txJson) {
             output.innerHTML += 'Transaction succesfully signed, copy the blob: <br>' + JSON.stringify(
               txJson, null, 2) + '<br><br>';
             output.innerHTML +=
