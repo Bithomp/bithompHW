@@ -4,13 +4,15 @@ import { encode } from "ripple-binary-codec"; //encodeForSigning
 import { computeBinaryTransactionHash } from "ripple-hashes";
 import { deriveAddress } from "ripple-keypairs";
 import { crypto } from "bitcore-lib";
-import TrezorConnect from "trezor-connect";
+//import TrezorConnect from "@trezor/connect-web";
 
 //enter your details for Trezor
+/*
 TrezorConnect.manifest({
   email: "email@example.com",
   appUrl: "https://example.com",
 });
+*/
 
 global.bithomphw = {};
 
@@ -134,6 +136,7 @@ bithomphw.ellipalPrepareTxForSubmit = (tx) => {
   };
 };
 
+/*
 bithomphw.trezorGetAddress = async (path = "m/44'/144'/0'/0/0") => {
   const params = { path, showOnTrezor: false };
   const { payload } = await TrezorConnect.rippleGetAddress(params);
@@ -164,3 +167,4 @@ bithomphw.trezorSignTransaction = async (tx, path = "m/44'/144'/0'/0/0") => {
     id: computeBinaryTransactionHash(signedTransaction),
   };
 };
+*/

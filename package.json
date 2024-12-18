@@ -20,8 +20,7 @@
     "core-js": "^3.25.0",
     "ripple-binary-codec": "^0.1.14",
     "ripple-hashes": "^0.3.4",
-    "ripple-keypairs": "^0.11.1",
-    "trezor-connect": "^8.2.1"
+    "ripple-keypairs": "^0.11.1"
   },
   "devDependencies": {
     "assert": "^2.0.0",
