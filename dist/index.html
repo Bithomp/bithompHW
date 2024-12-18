@@ -9,9 +9,9 @@
   <br><br>
   <b>Ledger nano S</b><br>
   <button id="ledgerPay">Donate 0.01 XRP to Bithomp</button>
-  <br><br>
+  <!--br><br>
   <b>Trezor</b><br>
-  <button id="trezorPay">Donate 0.01 XRP to Bithomp</button>
+  <button id="trezorPay">Donate 0.01 XRP to Bithomp</button-->
   <br><br>
   <div id="output"></div>
   <script src="./bithomphw.js"></script>
@@ -88,7 +88,7 @@
         ledgerPay(ledgerOpen)
       }
     };
-
+/*
     document.getElementById("trezorPay").onclick = function () {
       output.innerHTML = 'Trying to connect to your Trezor Hard Wallet...';
       bithomphw.trezorGetAddress().then(function (a) {
@@ -131,6 +131,7 @@
         console.log(err.message);
       });
     };
+*/
   </script>
 </body>
 
